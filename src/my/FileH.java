@@ -14,7 +14,6 @@ public class FileH<T> {
     private Scanner in = new Scanner(System.in);
     private Writer outCompressed,outDecompressed;
     private FileParser<T> objectParser;
-    private Vetor<Character> vetor = new Vetor<>();
     private String filename, compressed, decompressed;
        
     public void open(String filename, String compressedFile, String decompressedFile){
@@ -43,21 +42,24 @@ public class FileH<T> {
             
     public Vetor<Node> readObject(){
         System.out.println("Iniciando a leitura do arquivo "+this.filename);
+        Vetor<Character> vetor = new Vetor<>();
         String linha = "";
-    	try{
+    	
+        try{
             while(in.hasNextLine()){
                 linha += in.nextLine(); 
+            }
+        
+            char[] caracteres = linha.toCharArray();
+            Character[] arg = new Character[caracteres.length];
+
+            for(int i=0; i<caracteres.length; i++){
+                    arg[i] = caracteres[i];
+                    vetor.insert(i, arg[i]);
             }
         }catch(Exception ex){
             throw new RuntimeException(ex);
         }
-    	char[] caracteres = linha.toCharArray();
-    	Character[] arg = new Character[caracteres.length];
-        
-        for(int i=0; i<caracteres.length; i++){
-    		arg[i] = caracteres[i];
-    		vetor.insert(i, arg[i]);
-    	}
     	
         System.out.println("Arquivo lido com sucesso! Criando o vetor");
         
@@ -71,6 +73,26 @@ public class FileH<T> {
         }
             
         return v;
+        
+    }
+    
+    public char[] readCaracters(){
+        String linha = "";
+        char[] caracteres;
+        
+        open(filename,compressed,decompressed);
+        try{
+            while(in.hasNextLine()){
+                linha += in.nextLine(); 
+            }
+        
+            caracteres = linha.toCharArray();
+            
+        }catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        
+        return caracteres;
         
     }
     
@@ -105,7 +127,7 @@ public class FileH<T> {
                 v2.append(n);
             else
                 for(int j=0; j<v2.getSize();j++)
-                    if(n.getCaracteres()==v2.get(j).getCaracteres()){
+                    if(n.getCaracteres().equals(v2.get(j).getCaracteres())){
                         v2.get(j).setFreq(v2.get(j).getFreq()+1);
                         break;
                     } else 

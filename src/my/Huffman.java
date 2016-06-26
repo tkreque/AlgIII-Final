@@ -127,7 +127,78 @@ public class Huffman {
 
             buildTree(root, ultimo);
             
-            System.out.println("Construindo o binário do arquivo...");
+            System.out.println("Imprimindo a árvore");
+            System.out.println();
+            inOrder(node);
+
+            System.out.println();
+            preOrder(node);
+            
+            System.out.println("\n\nConstruindo o binário do arquivo...");
+            
+            char[] arrayCaracteres = ff.readCaracters();
+            char checker;
+
+            for (int i = 0; i < arrayCaracteres.length; i++) {
+                atual = node;
+                checker = arrayCaracteres[i];
+                String code = "";
+                
+                while (true) {
+                    if (atual.getEsq().getCaracteres().toCharArray()[0] == checker) {
+                        code += "0";
+                        break;
+                    } else {
+                        code += "1";
+                        if (atual.getDir() != null) {
+                            if (atual.getDir().getCaracteres().equals(v.get(v.getSize()-1).getCaracteres())) {
+                                break;
+                            }
+                            atual = atual.getDir();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                stringBinaria += code;
+            }
+            
+            System.out.println("Código binário: "+stringBinaria);
+            ff.writeObject(stringBinaria,1);
+            
+        }catch(Exception ex){
+            throw new RuntimeException("Erro no compress: "+ex);
+        }
+    }
+    
+    public void decompress(Vetor<Node> v, FileH ff){
+        System.out.println("Iniciando a decompressão do arquivo...");
+        try{
+            Node root = null;
+            Node atual = null;
+            Node ultimo = null;
+
+            for (int i = 0; i < v.getSize(); i++) {
+                Node node = new Node(v.get(i).getCaracteres(), v.get(i).getFreq());
+                if (root == null) {
+                        root = node;
+                        ultimo = node;
+                } else {
+                        atual = root;
+                        while (atual.getAnterior() != null) {
+                                atual = atual.getAnterior();
+                        }
+                        atual.setAnterior(node);
+                        atual.getAnterior().setProximo(atual);
+                        ultimo = node;
+                }
+            }
+
+            buildTree(root, ultimo);
+            
+            
+            
+            System.out.println("Desconstruindo o binário do arquivo...");
             for (int i = 0; i < v.getSize(); i++) {
                 atual = node;
                 String codigo = "";
@@ -150,20 +221,33 @@ public class Huffman {
                 stringBinaria += codigo;
             }
             
-            ff.writeObject(stringBinaria,1);
-            
-            
-        }catch(Exception ex){
-            throw new RuntimeException("Erro no compress: "+ex);
-        }
-    }
-    
-    public void decompress(Vetor<Node> v, FileH ff){
-        try{
-            
+            ff.writeObject(stringBinaria,2);
+                   
         }catch(Exception ex){
             throw new RuntimeException("Erro no decompress: "+ex);
         }
     }
+    
+    public static void preOrder(Node root) {
+
+		if (root != null) {
+
+			System.out.print(root.getCaracteres() + "->");
+			preOrder(root.getEsq());
+			preOrder(root.getDir());
+
+		}
+
+	}
+
+	public static void inOrder(Node root) {
+
+		if (root != null) {
+			inOrder(root.getEsq());
+			System.out.print(root.getCaracteres() + "->");
+			inOrder(root.getDir());
+		}
+
+	}
     
 }
