@@ -59,8 +59,10 @@ public class FileH<T> {
         String linha = "";
     	
         try{
-            while(in.hasNextLine())
-                linha += in.nextLine(); 
+            
+            while(in.hasNextLine()){
+                linha += in.nextLine()+"¬";                
+            }
             
             char[] caracteres = linha.toCharArray();
             Character[] arg = new Character[caracteres.length];
@@ -115,7 +117,7 @@ public class FileH<T> {
         open(filename,compressed,decompressed);
         try{
             while(in.hasNextLine()){
-                linha += in.nextLine(); 
+                linha += in.nextLine()+"¬"; 
             }
         
             caracteres = linha.toCharArray();

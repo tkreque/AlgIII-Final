@@ -203,11 +203,15 @@ public class Huffman {
                 
                 for(int j=0;j<v.getSize();j++)
                     if(v.get(j).getBinario().equals(bin)){
-                        stringDecompressed += v.get(j).getCaracteres();
+                        if(v.get(j).getCaracteres().equals("¬"))
+                            stringDecompressed +="\n";
+                        else
+                            stringDecompressed += v.get(j).getCaracteres();
                         bin = "";
                     }
             }
             
+            //System.out.println("TXT: "+stringDecompressed);
             ff.writeObject(stringDecompressed,2);
                    
         }catch(Exception ex){
