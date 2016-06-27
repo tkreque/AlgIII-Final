@@ -14,21 +14,17 @@ public class TesteExec {
             ff.open(origin,destination_compress,destination_decompress);
             v = ff.readObject();
             
-            for(int i=0;i<v.getSize();i++){
-                System.out.println("Caracter "+i+" - "+v.get(i).getCaracteres()+" :: "+v.get(i).getFreq()); 
-            }
-
             Huffman hf = new Huffman();
             
             hf.compress(v,ff);
             
-            //hf.decompress(v,ff);
+            hf.decompress(v,ff);
 
         }catch(Exception ex){
             System.out.println("Erro: "+ex);
            
         }finally{
-            ff.close();
+            ff.close(1);
         }
 
     }

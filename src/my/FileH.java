@@ -6,12 +6,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class FileH<T> {
-    private Scanner in = new Scanner(System.in);
+    private Scanner in,inBin;
     private Writer outCompressed,outDecompressed;
     private FileParser<T> objectParser;
     private String filename, compressed, decompressed;
@@ -23,33 +22,46 @@ public class FileH<T> {
         try{
             File file = new File(filename);
             in = new Scanner(file);
+            
             outCompressed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(compressedFile), "utf-8"));
             outDecompressed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(decompressedFile), "utf-8"));
         }catch(Exception ex){
-           	throw new RuntimeException(ex);
+            throw new RuntimeException("Erro ao abrir o arquivo: "+ex);
         }
     }	
     
-    public void close(){
+    public void close(int opcao){
         try{
-            in.close();
-            outCompressed.close();
-            outDecompressed.close();
+            switch (opcao){
+                case 1:
+                    in.close();
+                    break;
+                case 2:
+                    inBin.close();
+                    break;
+                case 3:
+                    outCompressed.close();
+                    break;
+                case 4:
+                    outDecompressed.close();
+                    break;
+                default:
+                    throw new Exception("Opção inválida");
+            }
         }catch(Exception ex){
             throw new RuntimeException(ex);
         }
     }
             
     public Vetor<Node> readObject(){
-        System.out.println("Iniciando a leitura do arquivo "+this.filename);
+        System.out.println("\nIniciando a leitura do arquivo "+this.filename);
         Vetor<Character> vetor = new Vetor<>();
         String linha = "";
     	
         try{
-            while(in.hasNextLine()){
+            while(in.hasNextLine())
                 linha += in.nextLine(); 
-            }
-        
+            
             char[] caracteres = linha.toCharArray();
             Character[] arg = new Character[caracteres.length];
 
@@ -61,7 +73,7 @@ public class FileH<T> {
             throw new RuntimeException(ex);
         }
     	
-        System.out.println("Arquivo lido com sucesso! Criando o vetor");
+        System.out.println("Arquivo lido com sucesso! Criando o vetor...");
         
         Vetor<Node> v = new Vetor<>();
         
@@ -74,6 +86,26 @@ public class FileH<T> {
             
         return v;
         
+    }
+    
+    public String readBinary(){
+        System.out.println("Iniciando a leitura do arquivo binário "+this.compressed);
+        String bin = "";
+        File fileBin = new File(this.compressed);
+        
+        try{   
+            
+            inBin = new Scanner(fileBin);
+            while(inBin.hasNextLine())
+                bin += inBin.nextLine(); 
+            
+        }catch(Exception ex){
+            throw new RuntimeException("Erro na leitura binária: "+ex);
+        }finally{
+            close(2);
+        }
+        
+        return bin;
     }
     
     public char[] readCaracters(){
@@ -99,14 +131,20 @@ public class FileH<T> {
     public void writeObject(String s,int opcao){
         System.out.println("Salvando o arquivo...");
         try{
-            if(opcao == 1){
-                outCompressed.write(s);
-                System.out.println("Arquivo salvo com sucesso!\n O caminho é: "+this.compressed);
-            } else if (opcao == 2){
-                outDecompressed.write(s);
-                System.out.println("Arquivo salvo com sucesso!\n O caminho é: "+this.decompressed);
-            } else
-                throw new RuntimeException("Falha ao salvar o arquivo: Opção inválida");
+            switch (opcao) {
+                case 1:
+                    outCompressed.write(s);
+                    System.out.println("Arquivo salvo com sucesso!\nO caminho é: \t"+this.compressed);
+                    close(3);
+                    break;
+                case 2:
+                    outDecompressed.write(s);
+                    System.out.println("Arquivo salvo com sucesso!\nO caminho é: \t"+this.decompressed);
+                    close(4);
+                    break;
+                default:
+                    throw new Exception("Opção inválida");
+            }
             
         }catch(Exception ex){
             throw new RuntimeException("Falha ao salvar o arquivo: "+ex);
