@@ -136,15 +136,6 @@ public class Huffman {
 
             buildTree(root, ultimo);
             
-            /*
-            System.out.println("Imprimindo a árvore");
-            System.out.println();
-            inOrder(node);
-
-            System.out.println();
-            preOrder(node);
-            */
-            
             System.out.println("Construindo o binário do arquivo...");
             
             char[] arrayCaracteres = ff.readCaracters();
@@ -211,7 +202,7 @@ public class Huffman {
                     }
             }
             
-            //System.out.println("TXT: "+stringDecompressed);
+            
             ff.writeObject(stringDecompressed,2);
                    
         }catch(Exception ex){
