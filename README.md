@@ -1,5 +1,23 @@
 # AlgIII-Final
 
+Código desenvolvido para a classe "Algoritimos III" em java.
+É uma tentativa de usar o algoritimo de Huffman para converter arquivos em binário.
+
+Alguns problemas existentes:
+ - Novas linhas não estão sendo consideradas no retorno do string binária para texto, agrupando tudo em 1 linha.
+ - O código não comprimi o texto. (O código simplesmente converte o texto em outro texto com aparência binária, não é realmente binário)
+ 
+O pacote "my" é o meu código.
+O pacote "web" é o algoritimo deste video do youtube, que me ajudou a entender o How-to.
+https://www.youtube.com/watch?v=ceECSn0W3pE
+
+Minhas variáveis estão em Português, irei tentar converter em Inglês para simplificar.
+
+Este códido foi usado somente para proposta acadêmica e é sua primeira versão.
+Obrigado.
+
+== English ==
+
 Code design for the class "Algorithm III" in java.
 Is an attempt to use the Huffman algorithm to convert files in binary.
 
