@@ -4,7 +4,6 @@ Código desenvolvido para a classe "Algoritimos III" em java.
 É uma tentativa de usar o algoritimo de Huffman para converter arquivos em binário.
 
 Alguns problemas existentes:
- - Novas linhas não estão sendo consideradas no retorno do string binária para texto, agrupando tudo em 1 linha.
  - O código não comprimi o texto. (O código simplesmente converte o texto em outro texto com aparência binária, não é realmente binário)
  
 O pacote "my" é o meu código.
@@ -22,7 +21,6 @@ Code design for the class "Algorithm III" in java.
 Is an attempt to use the Huffman algorithm to convert files in binary.
 
 There's some issues:
- - New lines are not considered in the return of the binary string to text, grouping all in 1 line.
  - The code don't compress the text. (The code simple convert the string into other string looking like binary, is not actual binary)
  
 The package "my" is my code.
